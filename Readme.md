@@ -1,6 +1,6 @@
-## Draft proposal 
+# Draft proposal 
 
-# Project Description 
+## Project Description 
 This is a written, non-technical description of your project. Depending on the specifics of your project, you should outline the answers to these (and perhaps other) questions:
 
 Who is your target audience?  Who do you envision using your application? Depending on the domain of your application, there may be a variety of audiences interested in using your application.  You should hone in on one of these audiences.
@@ -8,7 +8,7 @@ Why does your audience want to use your application? Please provide some sort of
 Why do you as developers want to build this application?
 Write this as a narrative (no bullet points or tables).
 
-# Technical Description
+## Technical Description
 This section of your proposal is an opportunity to think through the specific technical steps you'll need to complete throughout the project. Please include all of the requirements described below in this section. 
 
 Include an architectural diagram mapping:
