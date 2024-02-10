@@ -1,21 +1,110 @@
-# Draft proposal 
+# Job Application Manager
 
-## Project Description 
-This is a written, non-technical description of your project. Depending on the specifics of your project, you should outline the answers to these (and perhaps other) questions:
+## Non-Technical Description: 
 
-Who is your target audience?  Who do you envision using your application? Depending on the domain of your application, there may be a variety of audiences interested in using your application.  You should hone in on one of these audiences.
-Why does your audience want to use your application? Please provide some sort of reasoning. 
-Why do you as developers want to build this application?
-Write this as a narrative (no bullet points or tables).
+Our job application tracker is designed to cater to individuals actively seeking employment opportunities regardless of their current career status or industry. Our application is tailored to streamline the job application process for users of all backgrounds. 
 
-## Technical Description
-This section of your proposal is an opportunity to think through the specific technical steps you'll need to complete throughout the project. Please include all of the requirements described below in this section. 
+Applying for jobs and navigating the job market can be daunting, but our application is a valuable tool for students as they start on their professional journey to secure internships and jobs. Our centralized job application management system would allow for students to track and organize their applications and monitor their progress. Additionally, our features that we are implementing would empower and motivate students to continue applying and working towards their goal.
 
-Include an architectural diagram mapping:
-1) all client, server, and database components
-2) flow of data, and its communication type (websockets? REST API?).
+Many students, including us, have used traditional methods of job application tracking like using spreadsheets but as we continue to apply, we started to see a lack of sophistication and efficiency required to manage job applications effectively. Spreadsheets suffice for basic tracking, but fall short when an applicant would want to see their comprehensive insights regarding their job search progress. Our application aims to address these limitations by offering advanced features such as analytics, filtering, and status updates to provide users with an improved application tracking experience. 
 
-A summary table of user stories (descriptions of the experience a user would want) in a table like below.
-P0 means top priority, P1 means the top priority once all P0s are finished, P2 means the top priority when all P0s and P1s are finished, etc.. These priority classifications do not factor into grading. They are more for your own benefit to think about what would be top priorities if you happened to run out of time. The P0s should indicate what would make a Minimum Viable Product (MVP), which is the absolute least you can do and still have something interesting to show off.
-For each user story, say who the user is, and what action or outcome the user wants.
-For each of your user story, describe in 1-3 sentences what your technical implementation strategy is. Explicitly note in bold which technology you are using (if applicable).
+As developers, we are motivated to build this application based on our personal experiences and challenges that we have encountered while applying and tracking our job applications. These basic methods of spreadsheets or note-taking, often lead to disorganization and missed opportunities which hinder the applicant's job search process. We understand the frustrations that come with the process as well what is needed to better the procedure. We are envisioning a platform that simplifies job application tracking and also provides insights and tools to support its users throughout their job search journey.
+
+## Technical Description:
+
+| Priority | User Story | Technical Implementation |
+|----------|------------|--------------------------|
+| P0       | As a user who is interested in using the job application tracker web application, I want to create an account to access the features of the application. | Utilize React Form Component for the front-end to create a user-friendly registration form. Use Azure Authentication to allow users to sign in with their Microsoft accounts. |
+| P0       | As a user of the job application tracker web application, I want to input details of a new job application that they submitted including job title, company, application status, date and application link. | Create a form interface using React components to capture job application details. Develop an endpoint on the Node.js backend to receive and process the form data, then store the application details in MongoDB. Ensure that all the data is inputted and is valid. Implement data validation. |
+| P1       | As a user of the job application tracker web application, I want to update the application of the job I have applied to such that it aligns with the status of it on the job application portal. | Updating the elements that we want to change by accessing MongoDB element identifiers that correlate to the field that is being changed. Adding a router to the Node.js endpoint that performs these CRUD operations and sending information to the user that the operation was successful. |
+| P0       | As a user of the job application tracker web application, I want to view the application of a job I have applied to such that I can visually see the jobs I have already applied for. | Retrieving the user input fields in MongoDB and displaying them on the website using React, implementing a clean and easy to use interface that users can navigate. Implementing a view endpoint with Node.js that will handle the posting of all job applications added by the user. |
+| P1       | As a user of the job application tracker web application, I want to filter for a job I have applied for on the website by date or title such that I can easily find jobs that fit the criteria I am filtering for. | Filtering through the elements that we want to filter for by accessing user input fields in MongoDB and adding a filter endpoint with Node.js that processes the user input and returns the filtered values. Implementing React to create a user-friendly interface that includes a filter icon and different criteria that users can filter on (i.e. date, job title, status etc.) |
+| P1       | As a user of the job application tracker web application, I want to search for a job I have applied for on the website by name such that I can easily find jobs that fit the criteria I am searching for. | Filtering through the elements that we want to search for by accessing user input fields in MongoDB and adding a search endpoint with Node.js that processes the user input and returns the filtered values. Implementing React to create a user-friendly interface that includes a filter icon and different criteria that users can search by (i.e. name) |
+| P1       | As a user of the job application tracker web application, I want to be able to securely log out of the application such that my user session ends when I am not using the website actively. | Implementing an endpoint with Node.js that implements the functionality of logging out using the Microsoft-identity express package. Tracking middleware of the user sessions to store relevant information when a user tries to login. Handling logout requests in the backend such that the frontend will reflect these changes. |
+| P2       | As a user of the job application tracker web application, I want to view aggregated analytics of the jobs I have applied for such that I can see an analysis of the jobs I applied for this week compared to last week. | Aggregating the information of specific fields from MongoDB and returning that information to the website. Implementing an endpoint with Node.js that will handle the calculation of these statistics that will be shown on the frontend through React. |
+| P3       | As a user of the job application tracker web application, I want to receive email notifications for job interviews or deadlines for applications such that I can be on track and manage my time better. | Integrating an email service (such as SendGrid or NodeMailer) triggered by MongoDB event listeners when interview dates or deadlines are set or updated in job applications. Scheduled tasks which are managed by a Node.js scheduler will send personalized email alerts at the appropriate times. |
+
+
+## API Endpoints
+
+### User Authentication API (using Azure?)
+
+- **GET /users/register**
+  - Description: Register a new user.
+- **GET /users/login**
+  - Description: Log in an existing user.
+- **GET /users/logout**
+  - Description: Log out the current user.
+
+### Job Application Management API
+
+- **GET /users/{id}/applications**
+  - Description: Displays a list of all applications associated with the user's ID.
+- **GET /users/{id}/applications/{appId}**
+  - Description: Returns information about a specific application corresponding to the user.
+- **PUT /users/{id}/applications/{appId}**
+  - Description: Updates a specific job application.
+- **DELETE /users/{id}/applications/{appId}**
+  - Description: Deletes a specific job application.
+- **POST /users/{id}/applications**
+  - Description: Creates a new job application and its information.
+
+### Analytics API
+
+- **GET /users/users/{id}/analytics/overview**
+  - Description: Shows some brief statistics about jobs applied to so far.
+- **GET /users/{id}/analytics/daily**
+  - Description: Breaks down the number of applications applied to by day.
+
+### Searching/Filtering API
+
+- **GET /users/{id}/applications/search**
+  - Description: Search for job applications.
+- **GET /users/{id}/applications/filter**
+  - Description: Filter job applications based on certain criteria.
+
+
+### Database Schemas:
+
+#### Users
+
+| Field     | Description                                      |
+|-----------|--------------------------------------------------|
+| _id       | Automatically generated unique identifier.       |
+| username  | User's chosen username for the account.         |
+| email     | User's email address used for account registration and communication.     |
+| password  | Hashed password for authentication.             |
+
+#### Job Collection
+
+| Field             | Description                                         |
+|-------------------|-----------------------------------------------------|
+| _id               | Automatically generated unique identifier.          |
+| userId            | References the user who added the job entry.        |
+| jobName           | Title of the job being applied for.                 |
+| dateApplied       | Date when the job application was submitted.        |
+| jobStatus         | Current status of the job application.              |
+| applicationLink   | Link to the job posting/application.               |
+| interviewStatus   | Status of the interview process.                    |
+| company           | Name of the company for the job application.        |
+| location          | Location of the job (city, state, country).        |
+| jobDescription    | Description of the job role and responsibilities.   |
+| notes             | Additional notes or comments related to the job application. |
+| applicationDeadline | Deadline for submitting the job application.      |
+| salary            | Expected salary/salary range for the job position.  |
+| experienceRequired | Required experience level for the job.             |
+| skillsRequired    | Required skills or qualifications for the job.      |
+
+#### Analytics Collection
+
+| Field             | Description                                         |
+|-------------------|-----------------------------------------------------|
+| _id               | MongoDB's default unique identifier.                |
+| userId            | Reference to the User's _id this analytics data belongs to |
+| date              | Date for the analytics data.                        |
+| applicationsCount | Number of applications made on this date.           |
+| statusBreakdown   | Breakdown of application statuses on this date.
+
+
+
+
