@@ -33,10 +33,22 @@ app.get("/", (req, res) => {
     res.status(200).send("Server is up and running! new words more new words blah blah bloah");
 });
 
-
-
 app.get("/api", (req, res) => {
     res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added" })
+})
+
+app.post("/job", async (req, res) => {
+    // try {
+    //     const newJob = new req.models.Job({
+    //         jobName: req.body.jobName,
+    //         dateApplied: new Date() //should this be what the server says or what the user inputs as their applied date 
+    //     })
+    // } catch (error) {
+
+    // }
+    // const job = req.body;
+    // const newJob = new JobModel(job);
+    // await newJob.save();
 })
 
 export default app;
