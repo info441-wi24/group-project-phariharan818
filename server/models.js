@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv'
+dotenv.config()
 
 let models = {}
 console.log("connecting to mongodb")
-await mongoose.connect("mongodb+srv://kriti:BCF5PQk4DhWPcb4p@cluster0.0h9jp2a.mongodb.net/jobApplications")
+await mongoose.connect(process.env.MONGODB_URI)
 console.log("sucessfully connected")
 
 // Jobs Schema

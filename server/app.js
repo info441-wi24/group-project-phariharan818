@@ -3,8 +3,8 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import models from './models.js'
 import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config({ path: "./config.env" });
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
 app.use(logger('dev'));
