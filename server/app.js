@@ -23,4 +23,8 @@ app.get("/", (req, res) => {
     res.status(200).send("Server is up and running!");
 });
 
+app.get("/api", (req, res) => {
+    res.json({ "status": "success" })
+})
+
 export default app;
