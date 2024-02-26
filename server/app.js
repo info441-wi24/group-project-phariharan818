@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 
 app.get("/api", (req, res) => {
-    res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added" })
+    res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added"})
 })
 
 export default app;
