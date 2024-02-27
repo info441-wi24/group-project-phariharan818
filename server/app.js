@@ -33,10 +33,19 @@ app.get("/", (req, res) => {
     res.status(200).send("Server is up and running! new words more new words blah blah bloah");
 });
 
-
 app.get("/api", (req, res) => {
     res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added"})
 })
+
+app.get("/jobs", async function(req, res, next) {
+    try {
+        const jobs = await models.Job.find({});
+        res.status(200).json({"status": "success", "jobs": jobs});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({"status": "error", "error": error});
+    }
+});
 
 app.post('/jobs', async function(req, res, next) {
     try {
