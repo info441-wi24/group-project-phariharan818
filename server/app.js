@@ -34,9 +34,22 @@ app.get("/", (req, res) => {
 });
 
 
-
 app.get("/api", (req, res) => {
     res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added"})
 })
+
+app.post('/jobs', async function(req, res, next) {
+    try {
+        let newJob = new req.models.Job({
+            jobName: req.body.jobName,
+            dateApplied: req.body.dateApplied
+        })
+        await newJob.save()        
+        res.status(200).json({"status": "success"});
+    } catch (error) {
+        console.log(error)
+        res.send(500).json({"status": "error", "error": error})
+    }
+});
 
 export default app;
