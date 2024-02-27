@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import HomePage from './components/Homepage';
 
 function App() {
   useEffect(() => {
