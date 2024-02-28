@@ -1,53 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup';
+import axios from 'axios'
 
 function JobsList() {
-    const jobsArray = [
-        {
-            jobName: "Software Engineer",
-            dateApplied: new Date().toLocaleDateString(),
-            jobStatus: "Under Review",
-            company: "Epic",
-            location: "Verona, WI",
-            applicationLink: "https://epic.avature.net/Careers/FolderDetail/Software-Developer/740"
-        },
-        {
-            jobName: "Software Developer",
-            dateApplied: new Date().toLocaleDateString(),
-            jobStatus: "No Longer Under Consideration",
-            company: "Datadog",
-            location: "Seattle, WA",
-            applicationLink: "https://careers.datadoghq.com/detail/5744656/?gh_jid=5744656"
-        },
-        {
-            jobName: "Sales Engineer",
-            dateApplied: new Date().toLocaleDateString(),
-            jobStatus: "Under Review",
-            company: "Lutron",
-            location: "Coopersburg, PA",
-            applicationLink: "https://careers.lutron.com/jobs/3318?lang=en-us"
+    const [jobsArray, setJobsArray] = useState([])
+    
+    const fetchJobs = useCallback(async () => {
+        try {
+            await axios
+                .get(`${process.env.REACT_APP_API_URL}/jobs`)
+                .then(function (response) {
+                    setJobsArray(response.data.jobs)
+                })
+
+        } catch (e) {
+            console.log("error fetching data")
         }
-    ]
+}, [])
+
+    useEffect(() => {
+        fetchJobs()
+    }, [fetchJobs])
 
     return (
         <div>
+            <h4>My Jobs</h4>
+            <Button variant="success" type="button" onClick={fetchJobs}>Refresh</Button>
             <Row lg={3}>
                 {jobsArray &&
                     jobsArray.map((job) => {
-                        const { jobName, dateApplied, jobStatus, company, location, applicationLink } =
+                        const { jobName, jobStatus, company, location, applicationLink, _id } =
                             job;
                         return (
-                            <Col className="d-flex">
-                                <Card border="primary" style={{ width: '18rem' }} className="flex-fill" key={applicationLink}>
+                            <Col key={_id} className="d-flex">
+                                <Card border="primary" style={{ width: '18rem', marginBottom: '1rem' }} className="flex-fill">
                                     {/* fix key later */}
                                     <Card.Body>
                                         <Card.Title>{jobName}</Card.Title>
                                         <Card.Link href={applicationLink}>Link to Posting</Card.Link>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Applied: {dateApplied}</ListGroup.Item>
+                                            {/* <ListGroup.Item>Applied: {dateApplied}</ListGroup.Item> */}
                                             <ListGroup.Item>{jobStatus}</ListGroup.Item>
                                             <ListGroup.Item>{company}</ListGroup.Item>
                                             <ListGroup.Item>{location}</ListGroup.Item>

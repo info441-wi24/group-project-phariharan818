@@ -12,12 +12,12 @@ console.log("sucessfully connected")
 const jobSchema = new mongoose.Schema({
     // add userId reference later
     jobName: String,
-    dateApplied: Date,
-    // jobStatus: String,
-    // applicationLink: String,
+    // dateApplied: Date,
+    jobStatus: String,
+    applicationLink: String,
     // interviewStatus: String,
-    // company: String,
-    // location: String,
+    company: String,
+    location: String,
     // jobDescription: String,
     // notes: String,
     // applicationDeadline: Date,
