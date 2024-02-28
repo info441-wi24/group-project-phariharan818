@@ -7,9 +7,10 @@ function HomePage() {
 
     return (
         <div>
-            <h1>Job Application Manager</h1>
-            <h2>Track the stages of job applications, interview status, and outcomes</h2>
-            <h3>My Jobs</h3>
+            <div className='pb-3'>
+                <h1>Job Application Manager</h1>
+                <h2>Track the stages of job applications, interview status, and outcomes</h2>
+            </div>
             <AddJobForm />
             <JobsList />
 

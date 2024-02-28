@@ -48,10 +48,14 @@ app.get("/jobs", async function(req, res, next) {
 });
 
 app.post('/jobs', async function(req, res, next) {
+    const { jobTitle, jobStatus, company, location, link } = req.body
     try {
         let newJob = new req.models.Job({
-            jobName: req.body.jobName,
-            dateApplied: req.body.dateApplied
+            jobName: jobTitle,
+            jobStatus: jobStatus,
+            company: company,
+            location: location,
+            applicationLink: link
         })
         await newJob.save()        
         res.status(200).json({"status": "success"});

@@ -8,7 +8,7 @@ function JobsList() {
     const jobsArray = [
         {
             jobName: "Software Engineer",
-            dateApplied: new Date().toLocaleDateString(),
+            // dateApplied: new Date().toLocaleDateString(),
             jobStatus: "Under Review",
             company: "Epic",
             location: "Verona, WI",
@@ -16,7 +16,7 @@ function JobsList() {
         },
         {
             jobName: "Software Developer",
-            dateApplied: new Date().toLocaleDateString(),
+            // dateApplied: new Date().toLocaleDateString(),
             jobStatus: "No Longer Under Consideration",
             company: "Datadog",
             location: "Seattle, WA",
@@ -24,7 +24,7 @@ function JobsList() {
         },
         {
             jobName: "Sales Engineer",
-            dateApplied: new Date().toLocaleDateString(),
+            // dateApplied: new Date().toLocaleDateString(),
             jobStatus: "Under Review",
             company: "Lutron",
             location: "Coopersburg, PA",
@@ -34,10 +34,12 @@ function JobsList() {
 
     return (
         <div>
+            <h4>My Jobs</h4>
+
             <Row lg={3}>
                 {jobsArray &&
                     jobsArray.map((job) => {
-                        const { jobName, dateApplied, jobStatus, company, location, applicationLink } =
+                        const { jobName, jobStatus, company, location, applicationLink } =
                             job;
                         return (
                             <Col className="d-flex">
@@ -47,7 +49,7 @@ function JobsList() {
                                         <Card.Title>{jobName}</Card.Title>
                                         <Card.Link href={applicationLink}>Link to Posting</Card.Link>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Applied: {dateApplied}</ListGroup.Item>
+                                            {/* <ListGroup.Item>Applied: {dateApplied}</ListGroup.Item> */}
                                             <ListGroup.Item>{jobStatus}</ListGroup.Item>
                                             <ListGroup.Item>{company}</ListGroup.Item>
                                             <ListGroup.Item>{location}</ListGroup.Item>
