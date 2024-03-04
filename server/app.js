@@ -7,20 +7,21 @@ import dotenv from 'dotenv'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
+import apiv1Router from './routes/api/v1/apiv1.js'
 
 dotenv.config()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
 const app = express();
-
 app.use(logger('dev'));
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.use('/api/v1', apiv1Router);
 
 
 // middleware to share model with api handlers
@@ -33,36 +34,5 @@ app.get("/", (req, res) => {
     res.status(200).send("Server is up and running! new words more new words blah blah bloah");
 });
 
-app.get("/api", (req, res) => {
-    res.json({ "status": "success", "yay": "hehe", "newvalue": "added", "newest value": "added"})
-})
-
-app.get("/jobs", async function(req, res, next) {
-    try {
-        const jobs = await models.Job.find({});
-        res.status(200).json({"status": "success", "jobs": jobs});
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({"status": "error", "error": error});
-    }
-});
-
-app.post('/jobs', async function(req, res, next) {
-    const { jobTitle, jobStatus, company, location, link } = req.body
-    try {
-        let newJob = new req.models.Job({
-            jobName: jobTitle,
-            jobStatus: jobStatus,
-            company: company,
-            location: location,
-            applicationLink: link
-        })
-        await newJob.save()        
-        res.status(200).json({"status": "success"});
-    } catch (error) {
-        console.log(error)
-        res.send(500).json({"status": "error", "error": error})
-    }
-});
 
 export default app;
