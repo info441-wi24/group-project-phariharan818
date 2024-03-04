@@ -30,7 +30,6 @@ app.use((req, res, next) => {
 
 app.use('/api/v1', apiv1Router);
 
-
 app.get("/", (req, res) => {
     res.status(200).send("Server is up and running! new words more new words blah blah bloah");
 });

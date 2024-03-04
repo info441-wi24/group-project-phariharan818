@@ -12,7 +12,7 @@ console.log("sucessfully connected")
 const jobSchema = new mongoose.Schema({
     // add userId reference later
     jobName: String,
-    // dateApplied: Date,
+    dateApplied: Date,
     jobStatus: String,
     applicationLink: String,
     // interviewStatus: String,
@@ -24,10 +24,10 @@ const jobSchema = new mongoose.Schema({
     // salary: Number,
     // experienceRequired: String,
     // skillsRequired: String
+    // userID: reference to another users object
 })
 
 models.Job = mongoose.model('Job', jobSchema);
-console.log("Job schema created")
 
 
 export default models;
