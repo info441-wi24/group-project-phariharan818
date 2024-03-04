@@ -14,14 +14,15 @@ router.get("/", async function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-    const { jobTitle, jobStatus, company, location, link } = req.body
+    const { jobTitle, jobStatus, company, location, link, dateApplied } = req.body
     try {
         let newJob = new req.models.Job({
             jobName: jobTitle,
             jobStatus: jobStatus,
             company: company,
             location: location,
-            applicationLink: link
+            applicationLink: link,
+            dateApplied: new Date(dateApplied)
         })
         console.log(newJob)
         await newJob.save()        

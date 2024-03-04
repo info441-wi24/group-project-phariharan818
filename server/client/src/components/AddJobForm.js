@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
+import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 
@@ -11,7 +12,8 @@ function AddJobForm() {
         jobStatus: '',
         company: '',
         location: '',
-        link: ''
+        link: '',
+        dateApplied: ''
     });
 
     const handleChange = (event) => {
@@ -24,13 +26,8 @@ function AddJobForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const jobData = {
-            jobTitle: formData.jobTitle,
-            jobStatus: formData.jobStatus,
-            company: formData.company,
-            location: formData.location,
-            link: formData.link
+            ...formData
         }
 
         try {
@@ -41,7 +38,8 @@ function AddJobForm() {
                 jobStatus: '',
                 company: '',
                 location: '',
-                link: ''
+                link: '',
+                dateApplied: ''
             })
         } catch (e) {
             console.log(e.response.data)
@@ -49,7 +47,7 @@ function AddJobForm() {
     }
 
     return (
-        <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '5px', marginBottom:  '1rem'}}>
+        <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '5px', marginBottom: '1rem' }}>
             <h4>Enter information about a job you've applied to below</h4>
             <Form onSubmit={handleSubmit}>
                 <Row className="mb-3">
@@ -75,7 +73,23 @@ function AddJobForm() {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
+                    <Form.Group as={Col} className="mb-3" controlId="formGridDateApplied">
+                        <Form.Label>
+                            Date Applied
+                        </Form.Label>
+                        <Col sm={10}>
+                            <InputGroup>
+                                <InputGroup.Text><i className="fa fa-calendar" aria-hidden="true"></i></InputGroup.Text>
+                                <Form.Control
+                                    type="date"
+                                    name="dateApplied"
+                                    value={formData.dateApplied}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </InputGroup>
+                        </Col>
+                    </Form.Group>
 
                 </Row>
 
@@ -112,6 +126,9 @@ function AddJobForm() {
                             onChange={handleChange}
                         />
                     </Form.Group>
+
+
+
                 </Row>
 
                 <Button variant="primary" type="submit" className='mb-3'>
