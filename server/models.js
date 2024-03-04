@@ -27,5 +27,7 @@ const jobSchema = new mongoose.Schema({
 })
 
 models.Job = mongoose.model('Job', jobSchema);
+console.log("Job schema created")
+
 
 export default models;

@@ -34,7 +34,7 @@ function AddJobForm() {
         }
 
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/jobs`, jobData);
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/jobs`, jobData);
             console.log("success")
             setFormData({
                 jobTitle: '',
@@ -44,7 +44,7 @@ function AddJobForm() {
                 link: ''
             })
         } catch (e) {
-            console.log(e)
+            console.log(e.response.data)
         }
     }
 

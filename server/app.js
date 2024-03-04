@@ -21,14 +21,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.use('/api/v1', apiv1Router);
-
 
 // middleware to share model with api handlers
 app.use((req, res, next) => {
     req.models = models;
     next()
 })
+
+app.use('/api/v1', apiv1Router);
+
 
 app.get("/", (req, res) => {
     res.status(200).send("Server is up and running! new words more new words blah blah bloah");

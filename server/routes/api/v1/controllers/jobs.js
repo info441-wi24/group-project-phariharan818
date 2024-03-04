@@ -1,9 +1,11 @@
 import express from 'express';
 var router = express.Router();
+import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
     try {
         const jobs = await models.Job.find({});
+        console.log(models.Job)
         res.status(200).json({"status": "success", "jobs": jobs});
     } catch (error) {
         console.log(error);
@@ -21,6 +23,7 @@ router.post('/', async function(req, res, next) {
             location: location,
             applicationLink: link
         })
+        console.log(newJob)
         await newJob.save()        
         res.status(200).json({"status": "success"});
     } catch (error) {

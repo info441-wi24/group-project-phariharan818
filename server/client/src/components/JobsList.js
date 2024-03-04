@@ -11,16 +11,13 @@ function JobsList() {
     
     const fetchJobs = useCallback(async () => {
         try {
-            await axios
-                .get(`${process.env.REACT_APP_API_URL}/jobs`)
-                .then(function (response) {
-                    setJobsArray(response.data.jobs)
-                })
-
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/jobs`);
+            console.log(`${process.env.REACT_APP_API_URL}/api/v1/jobs`);
+            setJobsArray(response.data.jobs);
         } catch (e) {
-            console.log("error fetching data")
+            console.log("error fetching data", e);
         }
-}, [])
+    }, []);
 
     useEffect(() => {
         fetchJobs()
