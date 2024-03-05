@@ -3,16 +3,16 @@ var router = express.Router();
 import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
-    let dateApplied = req.query.dateApplied
-    let jobStatus = req.query.jobStatus
+    let startDate = req.body.startDate
+    let endDate = req.body.endDate
+    let jobStatus = req.body.jobStatus
     try { 
         let allJobs = await req.models.Job.find({});
-        if (dateApplied && jobStatus) {
-            allJobs = await req.models.Job.find({"dateApplied": dateApplied, "jobStatus": jobStatus});
-        } else {
+        if (startDate && endDate || jobStatus) {
+            allJobs = await req.models.Job.find({"startDate": startDate, "startDate": endDate, "jobStatus": jobStatus});
+        } else if (req.body.length == 0) {
             allJobs = await req.models.Job.find({});
         }
-        console.log(allJobs)
         res.status(200).json({"status": "success", "jobs": allJobs});
     } catch (error) {
         console.log(error);
