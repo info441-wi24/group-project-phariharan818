@@ -3,23 +3,17 @@ var router = express.Router();
 import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
-    try {
-        const jobStatus = req.query.jobStatus;
-        const dateApplied = req.query.dateApplied;
-        // const jobs = await models.Job.find({});
-        
-        const filteredjobs = await models.Job.find({"jobStatus": jobStatus, "dateApplied": dateApplied});
-        const filteredData = filteredjobs.filter(job => { 
-            let isValid = true; 
-            for (const key in filteredjobs) { 
-              console.log(key, filteredjobs[key], filteredjobs[key]); 
-              isValid = isValid && job[key] == filteredjobs[key]; 
-            } 
-            return isValid; 
-        });
-        // res.send(filteredData)
-        console.log(filteredData)
-        res.status(200).json({"status": "success", "jobs": filteredjobs});
+    let dateApplied = req.query.dateApplied
+    let jobStatus = req.query.jobStatus
+    try { 
+        let allJobs = await req.models.Job.find({});
+        if (dateApplied && jobStatus) {
+            allJobs = await req.models.Job.find({"dateApplied": dateApplied, "jobStatus": jobStatus});
+        } else {
+            allJobs = await req.models.Job.find({});
+        }
+        console.log(allJobs)
+        res.status(200).json({"status": "success", "jobs": allJobs});
     } catch (error) {
         console.log(error);
         res.status(500).json({"status": "error", "error": error});
