@@ -4,8 +4,22 @@ import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
     try {
+        const jobStatus = req.query.jobStatus;
+        const dateApplied = req.query.dateApplied;
         const jobs = await models.Job.find({});
-        console.log(models.Job)
+
+        const filteredjobs = await models.Job.find({"jobStatus": jobStatus, "dateApplied": dateApplied});
+        const filteredData = filteredjobs.filter(job => { 
+            let isValid = true; 
+            for (const key in jobs) { 
+              console.log(key, job[key], jobs[key]); 
+              isValid = isValid && job[key] == jobs[key]; 
+            } 
+            return isValid; 
+        });
+        
+        // res.send(filteredData)
+        console.log(filteredData)
         res.status(200).json({"status": "success", "jobs": jobs});
     } catch (error) {
         console.log(error);
