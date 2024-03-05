@@ -7,13 +7,17 @@ router.get("/", async function(req, res, next) {
     let endDate = req.body.endDate
     let jobStatus = req.body.jobStatus
     try { 
-        let allJobs = await req.models.Job.find({});
-        if (startDate && endDate || jobStatus) {
-            allJobs = await req.models.Job.find({"startDate": startDate, "startDate": endDate, "jobStatus": jobStatus});
-        } else if (req.body.length == 0) {
-            allJobs = await req.models.Job.find({});
+        let filteredJobs = [];
+        if (startDate && endDate && jobStatus) {
+            filteredJobs = await req.models.Job.find({"startDate": startDate, "startDate": endDate, "jobStatus": jobStatus});
+        } else if (startDate && endDate) {
+            filteredJobs = await req.models.Job.find({"startDate": startDate, "endDate": endDate});
+        } else if (jobStatus) {
+            filteredJobs = await req.models.Job.find({"jobStatus": jobStatus});
+        } else {
+            filteredJobs = await req.models.Job.find({});
         }
-        res.status(200).json({"status": "success", "jobs": allJobs});
+        res.status(200).json({"status": "success", "jobs": filteredJobs});
     } catch (error) {
         console.log(error);
         res.status(500).json({"status": "error", "error": error});
