@@ -3,7 +3,7 @@ var router = express.Router();
 import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
-    let { startDate, endDate, jobStatus } = req.query;
+    let { startDate, endDate, jobStatus, searchTerm } = req.query;
     let query = {};
     if (jobStatus) {
         query.jobStatus = jobStatus
@@ -14,8 +14,12 @@ router.get("/", async function(req, res, next) {
             $lte: new Date(endDate)
         };
     }
+    if (searchTerm) {
+        query.$text = { $search: searchTerm };
+    }
     try {
         let filteredJobs = await req.models.Job.find(query)
+
         res.status(200).json({"status": "success", "jobs": filteredJobs});
     } catch (error) {
         console.log(error);
