@@ -1,6 +1,9 @@
 import React from 'react';
 import JobsList from './JobsList';
 import AddJobForm from './AddJobForm';
+import SearchFilter from './SearchFilter';
+import Button from 'react-bootstrap/Button'
+
 
 function HomePage() {
 
@@ -12,6 +15,8 @@ function HomePage() {
                 <h2>Track the stages of job applications, interview status, and outcomes</h2>
             </div>
             <AddJobForm />
+            <SearchFilter />
+            <h4>My Jobs</h4>
             <JobsList />
 
         </div>
