@@ -73,7 +73,7 @@ function JobsList() {
                             <FormControl
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 type="search"
-                                placeholder="Search"
+                                placeholder="Search by Job Title"
                                 className="me-2"
                                 aria-label="Search"
                             />
