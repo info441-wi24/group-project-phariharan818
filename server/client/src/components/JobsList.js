@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Card, Row, Col, Button, ListGroup, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { Card, Row, Col, Button, ListGroup, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 function JobsList() {
     const [jobsArray, setJobsArray] = useState([]);
+    const [editingJobId, setEditingJobId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterKeyword, setFilterKeyword] = useState({
         startDate: '',
@@ -64,52 +65,53 @@ function JobsList() {
         fetchJobs();
     }, [fetchJobs]);
 
+    async function updateJobStatus(jobId, newStatus) {
+        try {
+            await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/jobs/${jobId}`, { jobStatus: newStatus });
+            setJobsArray(currentJobs =>
+                currentJobs.map(job =>
+                    job._id === jobId ? { ...job, jobStatus: newStatus } : job
+                )
+            );
+            setEditingJobId(null);
+        } catch (error) {
+            console.error("Error updating job status:", error);
+        }
+    }
+
     return (
         <div>
             <Row className="mb-3">
                 <Col md={12}>
                     <Form className="d-flex" onSubmit={handleSearchAndFilter}>
-                        <FormGroup as={Col} controlId="searchAndFilterGrid" className="me-2">
-                            <FormControl
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                        </FormGroup>
-                        <FormGroup as={Col} className="me-2">
-                            <FormLabel htmlFor="startDate">Start Date</FormLabel>
-                            <FormControl
-                                type="date"
-                                id="startDate"
-                                value={filterKeyword.startDate}
-                                onChange={(e) => setFilterKeyword({ ...filterKeyword, startDate: e.target.value })}
-                            />
-                        </FormGroup>
-                        <FormGroup as={Col} className="me-2">
-                            <FormLabel htmlFor="endDate">End Date</FormLabel>
-                            <FormControl
-                                type="date"
-                                id="endDate"
-                                value={filterKeyword.endDate}
-                                onChange={(e) => setFilterKeyword({ ...filterKeyword, endDate: e.target.value })}
-                            />
-                        </FormGroup>
-                        <FormGroup as={Col} controlId="filterGridJobStatus" className="me-2">
-                            <Form.Select
-                                aria-label="Select job status"
-                                value={filterKeyword.jobStatus}
-                                onChange={(e) => setFilterKeyword({ ...filterKeyword, jobStatus: e.target.value })}
-                            >
-                                <option value="">Filter by Application Status</option>
-                                <option value="Applied">Applied</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Interviewing">Interviewing</option>
-                                <option value="Online Assessment">Online Assessment</option>
-                                <option value="Rejected">Rejected</option>
-                            </Form.Select>
-                        </FormGroup>
+                        <Form.Control
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
+                        />
+                        <Form.Control
+                            type="date"
+                            value={filterKeyword.startDate}
+                            onChange={(e) => setFilterKeyword({ ...filterKeyword, startDate: e.target.value })}
+                        />
+                        <Form.Control
+                            type="date"
+                            value={filterKeyword.endDate}
+                            onChange={(e) => setFilterKeyword({ ...filterKeyword, endDate: e.target.value })}
+                        />
+                        <Form.Select
+                            value={filterKeyword.jobStatus}
+                            onChange={(e) => setFilterKeyword({ ...filterKeyword, jobStatus: e.target.value })}
+                        >
+                            <option value="">Filter by Application Status</option>
+                            <option value="Applied">Applied</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Interviewing">Interviewing</option>
+                            <option value="Online Assessment">Online Assessment</option>
+                            <option value="Rejected">Rejected</option>
+                        </Form.Select>
                         <Button variant="outline-success" type="submit">Search</Button>
                     </Form>
                 </Col>
@@ -138,12 +140,28 @@ function JobsList() {
                                         <Card.Title>{jobName}</Card.Title>
                                         <Card.Link href={applicationLink}>Link to Posting</Card.Link>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>{jobStatus}</ListGroup.Item>
+                                            {editingJobId === _id ? (
+                                                <ListGroup.Item>
+                                                    <Form.Select
+                                                        aria-label="Select job status"
+                                                        value={jobStatus}
+                                                        onChange={(e) => updateJobStatus(_id, e.target.value)}
+                                                    >
+                                                        <option value="Applied">Applied</option>
+                                                        <option value="In Progress">In Progress</option>
+                                                        <option value="Interviewing">Interviewing</option>
+                                                        <option value="Online Assessment">Online Assessment</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </Form.Select>
+                                                </ListGroup.Item>
+                                            ) : (
+                                                <ListGroup.Item>Job Status: {jobStatus}</ListGroup.Item>
+                                            )}
                                             <ListGroup.Item>Applied on {formattedDate}</ListGroup.Item>
                                             <ListGroup.Item>{company}</ListGroup.Item>
                                             <ListGroup.Item>{location}</ListGroup.Item>
                                         </ListGroup>
-                                        <Button style={{ margin: '1rem' }} variant="outline-primary">Edit</Button>
+                                        <Button style={{ margin: '1rem' }} variant="outline-primary" onClick={() => setEditingJobId(_id)}>Edit</Button>
                                         <Button variant="danger" onClick={() => deleteJob(_id)}>Delete</Button>
                                     </Card.Body>
                                 </Card>
