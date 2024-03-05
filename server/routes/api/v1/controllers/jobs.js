@@ -44,4 +44,18 @@ router.post('/', async function(req, res, next) {
     }
 });
 
+router.delete('/:jobId', async function(req, res, next) {
+    const jobId = req.params.jobId; // Extract jobId from URL parameters
+    try {
+        const deletedJob = await models.Job.findByIdAndDelete(jobId);
+        if (!deletedJob) {
+            return res.status(404).json({ "status": "error", "message": "Job not found" });
+        }
+        res.status(200).json({ "status": "success", "message": "Job deleted successfully" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "status": "error", "error": error });
+    }
+});
+
 export default router;
