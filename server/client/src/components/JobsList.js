@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function JobsList() {
     const [jobsArray, setJobsArray] = useState([]);
+    const [editingJobId, setEditingJobId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterKeyword, setFilterKeyword] = useState({
         startDate: '',
@@ -67,7 +68,12 @@ function JobsList() {
     async function updateJobStatus(jobId, newStatus) {
         try {
             await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/jobs/${jobId}`, { jobStatus: newStatus });
-            console.log("Job status updated successfully");
+            setJobsArray(currentJobs =>
+                currentJobs.map(job =>
+                    job._id === jobId ? { ...job, jobStatus: newStatus } : job
+                )
+            );
+            setEditingJobId(null);
         } catch (error) {
             console.error("Error updating job status:", error);
         }
@@ -134,24 +140,28 @@ function JobsList() {
                                         <Card.Title>{jobName}</Card.Title>
                                         <Card.Link href={applicationLink}>Link to Posting</Card.Link>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Job Status:
-                                                <Form.Select
-                                                    aria-label="Select job status"
-                                                    value={jobStatus}
-                                                    onChange={(e) => updateJobStatus(_id, e.target.value)}
-                                                >
-                                                    <option value="Applied">Applied</option>
-                                                    <option value="In Progress">In Progress</option>
-                                                    <option value="Interviewing">Interviewing</option>
-                                                    <option value="Online Assessment">Online Assessment</option>
-                                                    <option value="Rejected">Rejected</option>
-                                                </Form.Select>
-                                            </ListGroup.Item>
+                                            {editingJobId === _id ? (
+                                                <ListGroup.Item>
+                                                    <Form.Select
+                                                        aria-label="Select job status"
+                                                        value={jobStatus}
+                                                        onChange={(e) => updateJobStatus(_id, e.target.value)}
+                                                    >
+                                                        <option value="Applied">Applied</option>
+                                                        <option value="In Progress">In Progress</option>
+                                                        <option value="Interviewing">Interviewing</option>
+                                                        <option value="Online Assessment">Online Assessment</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </Form.Select>
+                                                </ListGroup.Item>
+                                            ) : (
+                                                <ListGroup.Item>Job Status: {jobStatus}</ListGroup.Item>
+                                            )}
                                             <ListGroup.Item>Applied on {formattedDate}</ListGroup.Item>
                                             <ListGroup.Item>{company}</ListGroup.Item>
                                             <ListGroup.Item>{location}</ListGroup.Item>
                                         </ListGroup>
-                                        <Button style={{ margin: '1rem' }} variant="outline-primary">Edit</Button>
+                                        <Button style={{ margin: '1rem' }} variant="outline-primary" onClick={() => setEditingJobId(_id)}>Edit</Button>
                                         <Button variant="danger" onClick={() => deleteJob(_id)}>Delete</Button>
                                     </Card.Body>
                                 </Card>
