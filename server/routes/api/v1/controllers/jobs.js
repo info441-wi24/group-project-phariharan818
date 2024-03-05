@@ -61,4 +61,22 @@ router.delete('/:jobId', async function(req, res, next) {
     }
 });
 
+router.put('/:jobId', async function(req, res, next) {
+    const jobId = req.params.jobId;
+    const { jobStatus } = req.body;
+
+    try {
+        const updatedJob = await models.Job.findByIdAndUpdate(jobId, { jobStatus }, { new: true });
+
+        if (!updatedJob) {
+            return res.status(404).json({ "status": "error", "message": "Job not found" });
+        }
+
+        res.status(200).json({ "status": "success", "job": updatedJob });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "status": "error", "error": error });
+    }
+});
+
 export default router;
