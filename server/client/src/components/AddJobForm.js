@@ -77,18 +77,15 @@ function AddJobForm() {
                         <Form.Label>
                             Date Applied
                         </Form.Label>
-                        <Col sm={10}>
-                            <InputGroup>
-                                <InputGroup.Text><i className="fa fa-calendar" aria-hidden="true"></i></InputGroup.Text>
-                                <Form.Control
-                                    type="date"
-                                    name="dateApplied"
-                                    value={formData.dateApplied}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Col>
+                        <InputGroup>
+                            <Form.Control
+                                type="date"
+                                name="dateApplied"
+                                value={formData.dateApplied}
+                                onChange={handleChange}
+                                required
+                            />
+                        </InputGroup>
                     </Form.Group>
 
                 </Row>
@@ -107,14 +104,19 @@ function AddJobForm() {
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridJobStatus">
                         <Form.Label>Job Status</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Under Review"
+                        <Form.Select 
+                            aria-label="Select job status"
                             name="jobStatus"
-                            value={formData.jobStatus}
+                            value={formData.jobStatus} 
                             onChange={handleChange}
-                        />
+                        >
+                            <option>Application Status</option>
+                            <option value="Applied">Applied</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Interviewing">Interviewing</option>
+                            <option value="Online Assessment">Online Assessment</option>
+                            <option value="Rejected">Rejected</option>
+                        </Form.Select>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridLocation">
                         <Form.Label>Location</Form.Label>
