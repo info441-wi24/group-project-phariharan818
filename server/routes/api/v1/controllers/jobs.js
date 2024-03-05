@@ -6,21 +6,20 @@ router.get("/", async function(req, res, next) {
     try {
         const jobStatus = req.query.jobStatus;
         const dateApplied = req.query.dateApplied;
-        const jobs = await models.Job.find({});
-
+        // const jobs = await models.Job.find({});
+        
         const filteredjobs = await models.Job.find({"jobStatus": jobStatus, "dateApplied": dateApplied});
         const filteredData = filteredjobs.filter(job => { 
             let isValid = true; 
-            for (const key in jobs) { 
-              console.log(key, job[key], jobs[key]); 
-              isValid = isValid && job[key] == jobs[key]; 
+            for (const key in filteredjobs) { 
+              console.log(key, filteredjobs[key], filteredjobs[key]); 
+              isValid = isValid && job[key] == filteredjobs[key]; 
             } 
             return isValid; 
         });
-        
         // res.send(filteredData)
         console.log(filteredData)
-        res.status(200).json({"status": "success", "jobs": jobs});
+        res.status(200).json({"status": "success", "jobs": filteredjobs});
     } catch (error) {
         console.log(error);
         res.status(500).json({"status": "error", "error": error});
