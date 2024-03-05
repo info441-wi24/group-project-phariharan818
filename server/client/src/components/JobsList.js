@@ -10,13 +10,13 @@ function JobsList() {
     const [jobsArray, setJobsArray] = useState([])
     async function deleteJob(jobId) {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/jobs`, {
-                params: { jobId: jobId }
-            })
-        } catch (e) {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/jobs/${jobId}`);
+            setJobsArray(currentJobs => currentJobs.filter(job => job._id !== jobId));
+        } catch(e) {
             console.log("error deleting job", e)
         }
     }
+
     const fetchJobs = useCallback(async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/jobs`);
