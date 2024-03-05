@@ -12,7 +12,7 @@ function NavigationBar() {
           <Nav className="justify-content-end" style={{ gap: '3em' }}>
             <NavLink to="/HomePage" style={{ fontWeight: 600, fontSize: '18px', color: 'white' }}>Home</NavLink>
             <NavLink to="/Jobs" style={{ fontWeight: 600, fontSize: '18px', color: 'white' }}>Jobs</NavLink>
-            <NavLink to="/Analytics" style={{ fontWeight: 600, fontSize: '18px', color: 'white' }}>Analytics</NavLink>
+            <NavLink to="/signin" style={{ fontWeight: 600, fontSize: '18px', color: 'white' }}>Sign In</NavLink>
           </Nav>
         </Container>
       </Navbar>
