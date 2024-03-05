@@ -10,20 +10,12 @@ console.log("sucessfully connected")
 // Jobs Schema
 
 const jobSchema = new mongoose.Schema({
-    // add userId reference later
-    jobName: String,
+    jobName: { type: String, text: true },
     dateApplied: Date,
     jobStatus: String,
     applicationLink: String,
-    // interviewStatus: String,
     company: String,
     location: String,
-    // jobDescription: String,
-    // notes: String,
-    // applicationDeadline: Date,
-    // salary: Number,
-    // experienceRequired: String,
-    // skillsRequired: String
     // userID: reference to another users object
 })
 
