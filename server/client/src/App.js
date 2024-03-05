@@ -1,17 +1,18 @@
-// import React, { useEffect } from 'react';
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom';
 import JobPage from './components/JobPage';
-import Nav from './components/Nav.js'
+import NavigationBar from './components/Nav';
+import HomePage from './components/HomePage';
 
 function App() {
   return (
     <div>
-      <Nav />
+      <NavigationBar />
       <div style={{ marginTop: '1em', padding: '10px' }}></div>
       <Routes>
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/" element={<JobPage />}  /> 
+        <Route path="/Jobs" element={<JobPage />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </div>
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import JobsList from './JobsList';
 import AddJobForm from './AddJobForm';
-import Button from 'react-bootstrap/Button'
 
 
 function HomePage() {
