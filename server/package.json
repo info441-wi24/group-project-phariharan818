@@ -16,9 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "express-session": "^1.18.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.2.0",
     "morgan": "^1.10.0",
+    "msal-node-wrapper": "https://gitpkg.now.sh/kylethayer/ms-identity-javascript-nodejs-tutorial-msal-node-v2-/Common/msal-node-wrapper?main",
     "nodemon": "^3.1.0"
   }
 }

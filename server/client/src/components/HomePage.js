@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 
-function HomePage() {
+function HomePage({ userSessionInfo }) {
+    console.log(userSessionInfo)
+    const isLoggedIn = userSessionInfo.status
     return (
         <div>
             <Container fluid style={{ backgroundColor: '#f8f9fa', paddingTop: '2rem', paddingBottom: '2rem' }}>
@@ -67,9 +68,15 @@ function HomePage() {
                         Sign up now to start organizing your job search and land your dream job!
                     </p>
                     <div className="text-center">
-                        <Link to="/signin" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
-                            <Button variant="light">Sign In</Button>
-                        </Link>
+                        {isLoggedIn === 'loggedin' ? (
+                            <a href="/signout" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+                                <Button variant="light">Sign Out</Button>
+                            </a>
+                        ) : (
+                            <a href="/signin" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+                                <Button variant="light">Sign In</Button>
+                            </a>
+                        )}
                     </div>
                 </Container>
             </Container>

@@ -19,7 +19,6 @@ router.get("/", async function(req, res, next) {
     }
     try {
         let filteredJobs = await req.models.Job.find(query)
-
         res.status(200).json({"status": "success", "jobs": filteredJobs});
     } catch (error) {
         console.log(error);
@@ -48,7 +47,7 @@ router.post('/', async function(req, res, next) {
 });
 
 router.delete('/:jobId', async function(req, res, next) {
-    const jobId = req.params.jobId; // Extract jobId from URL parameters
+    const jobId = req.params.jobId; 
     try {
         const deletedJob = await models.Job.findByIdAndDelete(jobId);
         if (!deletedJob) {
@@ -67,7 +66,6 @@ router.put('/:jobId', async function(req, res, next) {
 
     try {
         const updatedJob = await models.Job.findByIdAndUpdate(jobId, { jobStatus }, { new: true });
-
         if (!updatedJob) {
             return res.status(404).json({ "status": "error", "message": "Job not found" });
         }

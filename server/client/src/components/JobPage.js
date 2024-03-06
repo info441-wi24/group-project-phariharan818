@@ -3,7 +3,7 @@ import JobsList from './JobsList';
 import AddJobForm from './AddJobForm';
 
 
-function HomePage() {
+function HomePage({userSessionInfo}) {
 
 
     return (
@@ -12,9 +12,9 @@ function HomePage() {
                 <h1>Job Application Manager</h1>
                 <h2>Track the stages of job applications, interview status, and outcomes</h2>
             </div>
-            <AddJobForm />
+            <AddJobForm userSessionInfo={userSessionInfo}/>
             <h4>My Jobs</h4>
-            <JobsList />
+            <JobsList userSessionInfo={userSessionInfo}/>
 
         </div>
     )
