@@ -3,28 +3,40 @@ var router = express.Router();
 import models from '../../../../models.js';
 
 router.get("/", async function(req, res, next) {
-    let { startDate, endDate, jobStatus, searchTerm } = req.query;
-    let query = {};
-    if (jobStatus) {
-        query.jobStatus = jobStatus
-    }
-    if (startDate && endDate) {
-        query.dateApplied = {
-            $gte: new Date(startDate),
-            $lte: new Date(endDate)
-        };
-    }
-    if (searchTerm) {
-        query.$text = { $search: searchTerm };
-    }
     try {
-        let filteredJobs = await req.models.Job.find(query)
-        res.status(200).json({"status": "success", "jobs": filteredJobs});
+        if (req.session.isAuthenticated) {
+            let username = req.session.account.username;
+            let user = await req.models.User.findOne({username});
+            if (user) {
+                let userId = user._id;
+                let { startDate, endDate, jobStatus, searchTerm } = req.query;
+                let query = { user: userId };
+                if (jobStatus) {
+                    query.jobStatus = jobStatus;
+                }
+                if (startDate && endDate) {
+                    query.dateApplied = {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    };
+                }
+                if (searchTerm) {
+                    query.jobName = { $regex: new RegExp(searchTerm, 'i') };
+                }
+                let filteredJobs = await req.models.Job.find(query);
+                return res.status(200).json({ status: "success", "jobs": filteredJobs });
+            } else {
+                return res.status(404).json({ status: "error", error: "user not found" });
+            }
+        } else {
+            return res.status(401).json({ status: "error", error: "not logged in" });
+        }
     } catch (error) {
         console.log(error);
-        res.status(500).json({"status": "error", "error": error});
+        return res.status(500).json({ status: "error", "error": error });
     }
 });
+
 
 router.post('/', async function(req, res, next) {
     if (!req.session.isAuthenticated) {
