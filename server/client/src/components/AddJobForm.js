@@ -6,14 +6,15 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 
-function AddJobForm() {
+function AddJobForm({userSessionInfo}) {
     const [formData, setFormData] = useState({
         jobTitle: '',
         jobStatus: '',
         company: '',
         location: '',
         link: '',
-        dateApplied: ''
+        dateApplied: '',
+        user: ''
     });
 
     const handleChange = (event) => {
@@ -27,7 +28,8 @@ function AddJobForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const jobData = {
-            ...formData
+            ...formData,
+            user: userSessionInfo.userInfo.username
         }
 
         try {
@@ -39,7 +41,8 @@ function AddJobForm() {
                 company: '',
                 location: '',
                 link: '',
-                dateApplied: ''
+                dateApplied: '',
+                user: ''
             })
         } catch (e) {
             console.log(e.response.data)

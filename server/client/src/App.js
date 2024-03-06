@@ -6,6 +6,7 @@ import HomePage from './components/HomePage';
 import axios from 'axios';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userSessionInfo, setUserSessionInfo] = useState({
     status: '',
     userInfo: {
@@ -27,9 +28,8 @@ function App() {
             username: username
           }
         };
-        console.log(userInfoForPostRequest)
-        setUserSessionInfo(userInfoForPostRequest); // Schedule state update
-        // Use userInfoForPostRequest directly for the POST request
+        setIsAuthenticated(true)
+        setUserSessionInfo(userInfoForPostRequest); 
         await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, userInfoForPostRequest.userInfo);
         console.log('log in success');
       } else {
@@ -40,6 +40,7 @@ function App() {
             username: undefined
           }
         })
+        setIsAuthenticated(false)
       }
     } catch (error) {
       console.log("error fetching user identity", error)
@@ -50,6 +51,7 @@ function App() {
           username: ""
         }
       });
+      setIsAuthenticated(false)
     }
   }
 
@@ -63,7 +65,7 @@ function App() {
       <div style={{ marginTop: '1em', padding: '10px' }}></div>
       <Routes>
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/Jobs" element={<JobPage userSessionInfo={userSessionInfo} />} />
+        <Route path="/Jobs" element={isAuthenticated ? <JobPage userSessionInfo={userSessionInfo}/> : <Navigate to="/" replace />} />
         <Route path="/" element={<HomePage userSessionInfo={userSessionInfo} />} />
       </Routes>
     </div>
