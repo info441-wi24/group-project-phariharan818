@@ -27,16 +27,29 @@ router.get("/", async function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-    const { jobTitle, jobStatus, company, location, link, dateApplied } = req.body
+    if (!req.session.isAuthenticated) {
+        return res.status(401).json({
+            status: "error",
+            error: "not logged in"
+        })
+    }
+    const { jobTitle, jobStatus, company, location, link, dateApplied, user } = req.body
     try {
+        const userDoc = await req.models.User.findOne({ username: user });
+        const userID = userDoc._id
+        console.log(user)
+        console.log(userID)
         let newJob = new req.models.Job({
             jobName: jobTitle,
             jobStatus: jobStatus,
             company: company,
             location: location,
             applicationLink: link,
-            dateApplied: new Date(dateApplied)
+            dateApplied: new Date(dateApplied),
+            user: userID
         })
+
+        // add in logic to save job after searching for user ID 
         console.log(newJob)
         await newJob.save()        
         res.status(200).json({"status": "success"});
