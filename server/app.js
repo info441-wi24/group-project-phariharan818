@@ -22,8 +22,8 @@ const authConfig = {
         clientId: "b20de2ea-e8fd-4cb5-94fa-793f564f9312",
         authority: "https://login.microsoftonline.com/f6b6dd5b-f02f-441a-99a0-162ac5060bd2",
         clientSecret: "QfB8Q~KteVFXAoi6cRZCa.SVg.r6Wjr_dNVQwcXr",
-        redirectUri: "/redirect" //note: you can explicitly make this "localhost:3000/redirect" or "examplesite.me/redirect"
-        // redirectUri: "https://websharer.kritivajjhula.me/redirect" // maybe add conditional prod url and local url using node env variables later
+        //redirectUri: "/redirect" //note: you can explicitly make this "localhost:3000/redirect" or "examplesite.me/redirect"
+        redirectUri: "https://jobquest.azurewebsites.net/redirect" // maybe add conditional prod url and local url using node env variables later
     },
     system: {
         loggerOptions: {
