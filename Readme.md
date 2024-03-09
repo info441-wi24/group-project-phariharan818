@@ -1,5 +1,11 @@
 # Job Application Manager
 
+## Install
+1. To run the application locally, first navigate to the `client` directory, install dependencies with `npm install`, and then build the client-side code using `npm run build`.
+2. After that, return to the root directory, navigate to the `server` directory, install server dependencies with `npm install`, and finally start the server with `npm start`.
+3. 3. Once the server is running, you can access the application locally at [http://localhost:3001](http://localhost:3001).
+
+
 ## Non-Technical Description: 
 
 Our job application tracker is designed to cater to individuals actively seeking employment opportunities regardless of their current career status or industry. Our application is tailored to streamline the job application process for users of all backgrounds. 
